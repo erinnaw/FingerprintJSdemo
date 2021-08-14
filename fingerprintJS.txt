@@ -1,0 +1,242 @@
+Parameters for < const fpPromise = FingerprintJS.load({ ... } >
+    fpPromise will resolve with 'fp' object that you can use to call 'fp.get()'
+token - Browser token that authenticates agent with API / default: no, required: yes
+endpoint (only used in subdomain integration) - default: no, required: false
+tlsEndpoint - Custom TLS endpoint / default: no, required: false
+disableTls - Disables the extra TLS request / default: no, required: false
+storageKey - Name of key to store data in visitor browsers / default: '_vid', required: false
+
+Responses
+visitorId - empty string if visitor is unidentifiable
+--------------------------------------------------------------------------------------------------
+>>Manual Mode
+
+document.querySelector('#ad').addEventListener('click', () => {
+fpPromise
+    .then(fp => fp.get())
+    .then(result => console.log(result.visitorId))
+})
+--------------------------------------------------------------------------------------------------
+>>Search Bots
+
+const result = await fp.get({ extendedResult: true })
+if (!result.visitorId && result.bot && result.bot.safe) {
+    console.log('This is a search bot')
+}
+--------------------------------------------------------------------------------------------------
+>>Tags
+
+const yourCustomId = 2718281828
+fp.get({ tag: yourCustomId })
+Webhook request
+{
+    "visitorId": "nTxJ28Gt4CegeAwdWELL",
+    "tag": { "tag": 2718281828 },
+    ...
+}
+
+Note that tags are always objects, even when you use a regular scalar value. 
+If you provide a scalar value, it will be converted to an object with `tag` attribute.
+NOTE: nested objects are not supported in tag objects.
+
+const requestMetadata = {
+    yourCustomId: 2718281828, 
+    requestType: "signup"
+}
+
+Making an API call and receiving a response via a webhook request
+
+fp.get({ tag: requestMetadata })
+Webhook request
+{
+    "visitorId": "nTxJ28Gt4CegeAwdWELL", 
+    "tag": { "yourCustomId": 2718281828, "requestType": "signup" },
+    ...
+}
+--------------------------------------------------------------------------------------------------
+>>LinkedId (string values only)
+-link current id event with custom identifier
+-Sending a linkedId value is helpful to filter by this value via server API
+
+var orderId = 3936532456
+fp.get({ linkedId: orderId })
+--------------------------------------------------------------------------------------------------
+>>Response Object Format
+
+fp.get()...
+{
+  "requestId": "8nbmT18x79m54PQ0GvPq",
+  "visitorId": "2JGu1Z4d2J4IqiyzO3i4",
+  // if true, this visitor was found and visited before
+  // if false, this visitor wasn't found and probably didn't visit before
+  "visitorFound": true,
+  // A number between 0 and 1 that tells how much the agent is sure about
+  // the visitor identifier. The higher the number, the higher the chance
+  // of the visitor identifier to be true.
+  "confidence": { "score": 0.995 }
+}
+
+Extended
+
+fp.get({ extendedResult: true })...
+{
+    "requestId": "8nbmT18x79m54PQ0GvPq",
+    "visitorId": "2JGu1Z4d2J4IqiyzO3i4",
+    "visitorFound": true,
+    "confidence": { "score": 0.995 },
+    "ip": "185.230.125.20",
+    "ipLocation": {
+        "accuracyRadius": 10,
+        "latitude": 47.3925,
+        "longitude": 8.4546,
+        "postalCode": "8010",
+        "timezone": "Europe/Zurich",
+        "city": {
+        "name": "Zurich"
+        },
+        "continent": {
+        "code": "EU",
+        "name": "Europe"
+        },
+        "country": {
+        "code": "CH",
+        "name": "Switzerland"
+        },
+        "subdivisions": [
+        {
+            "isoCode": "ZH",
+            "name": "Zurich"
+        }
+        ]
+    },
+    "browserName": "Chrome",
+    "browserVersion": "75.0.3770",
+    "os": "Mac OS X",
+    "osVersion": "10.14.5",
+    "device": "Other",
+    "bot": { probability: 1, safe: true },
+    "incognito": false
+}
+--------------------------------------------------------------------------------------------------
+>>Timeout (ms)
+-controls client side timeout (total time = client-side + server-side)
+-default 10s
+
+try {
+    const result = await fp.get({ timeout: 20000 })
+    ...
+} catch (error) {
+    if (error.message === FingerprintJS.ERROR_CLIENT_TIMEOUT) {
+        console.log("A timeout of 20 seconds exceeded")
+    }
+}
+
+or
+
+fpPromise
+    .then(fp => fp.get())
+    .then(result => console.log(result.visitorId))
+    .catch(error => {
+        switch (error.message) {
+        case FingerprintJS.ERROR_GENERAL_SERVER_FAILURE:
+            console.log('Unknown server error. Request id:', error.requestId)
+            break
+        case FingerprintJS.ERROR_CLIENT_TIMEOUT:
+            console.log('Identification time limit of 10 seconds is exceeded')
+            break
+        default:
+            console.log('Other error')
+        }
+    })
+--------------------------------------------------------------------------------------------------
+Query Parameters
+
+Path Perameters 
+id: required/string/visitorId
+
+Query Parameters
+request_id: optional/string/filter events by requestId
+linked_id: optional/string/filter events by customer identifier
+limit: optional/number/limit scanned results
+before: optional/integer/used to paginate results
+
+--------------------------------------------------------------------------------------------------
+Global Base URL: https://api.fpjs.io
+
+get /visitors/:id - get visitor history
+api-base-url/visitors/:id
+
+Response (visitor-found)
+// visitor found and recent visits history is available
+{
+  "visitorId": "Ibk1527CUFmcnjLwIs4A9",
+  "visits": [
+    {
+      "requestId": "0KSh65EnVoB85JBmloQK",
+      "incognito": true,
+      "linkedId": "somelinkedId",
+      "time": "2019-05-21T16:40:13Z",
+      // timestamp of the event with millisecond precision
+      "timestamp": 1582299576512,
+      "url": "https://www.example.com/login",
+      "ip": "61.127.217.15",
+      "ipLocation": {
+        "accuracyRadius": 10,
+        "latitude": 49.982,
+        "longitude": 36.2566,
+        "postalCode": "61202",
+        "timezone": "Europe/Dusseldorf",
+        "city": {
+          "name": "Dusseldorf"
+        },
+        "continent": {
+          "code": "EU",
+          "name": "Europe"
+        },
+        "country": {
+          "code": "DE",
+          "name": "Germany"
+        },
+        "subdivisions": [
+          {
+            "isoCode": "63",
+            "name": "North Rhine-Westphalia"
+          }
+        ],
+      },
+      "browserDetails": {
+        "browserName": "Chrome",
+        "browserMajorVersion": "74",
+        "browserFullVersion": "74.0.3729",
+        "os": "Windows",
+        "osVersion": "7",
+        "device": "Other",
+        "userAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) ....",
+      }
+    }
+  ],
+  // optional, if more results are available for pagination.
+  "lastTimestamp": 1582299576512
+}
+
+Response (visitor-found-no-visits)
+// visitor found, but has no recent visits
+// by default, visits are returned from last 10 days
+{
+  "visitorId": "Ibk1527CUFmcnjLwIs4A9",
+  "visits": []
+}
+--------------------------------------------------------------------------------------------------
+>>Limit (default: 100 events, max: 500 events)
+
+//most recent 50 will be scanned, filtering with linkedId
+/visitors/:visitorId?limit=50&linked_id=1234ADF
+--------------------------------------------------------------------------------------------------
+>>Pagination
+-due to limit, use timestamp attribute to search further into the past
+-"lastTimestamp" (in ms) top-level-attribute is added to the response if results > limit (500)
+
+// 1st request, returning most recent 200 events:
+GET api-base-url/visitors/:visitorId?limit=200
+// next page of 200 events
+GET api-base-url/visitors/:visitorId?limit=200&before=1582232027567

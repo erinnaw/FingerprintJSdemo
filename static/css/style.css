@@ -1,0 +1,134 @@
+.title {
+  font-size: 50px;
+  text-align: center;
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+.visitorid-text-col {
+  display: grid;
+  grid-template-columns: auto auto;
+  width: 800px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 24px;
+  margin: auto;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 5px 5px 5px 5px;
+}
+
+.message-form {
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 5px 5px 5px 5px;
+  margin: auto;
+  width: 600px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+}
+
+.flash-msg {
+  height: 20px;
+  line-height: 20px;
+  margin: auto;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.error-msg {
+  font-size: 30px;
+  margin: auto;
+}
+
+.visitorid-button {
+  cursor: pointer;
+  font-size: 20px;
+  color: white;
+  text-align: center;
+  height: 50px;
+  width: 245px;
+  line-height: 50px;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: rgb(0, 0, 0);
+  margin: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.visitorid-button-col {
+  display: grid;
+  grid-template-columns: auto auto;
+  width: 600px;
+  height: 100px;
+  line-height: 100px;
+  font-size: 30px;
+  margin: auto;
+}
+
+.visitor-info-container {
+  width: 800px;
+  margin: auto;
+}
+
+.max-result-col {
+  display: grid;
+  grid-template-columns: 7% 8% 10% 40% 10% 25%;
+  border: 1px solid black;
+  border-radius: 5px;
+  height: 40px;
+  line-height: 40px;
+  margin: auto;
+  padding-left: 5px;
+  text-align: center;
+}
+
+.pagination {
+  display: grid;
+  grid-template-columns: 20% 20% 20% 20% 20%;
+  border: 1px solid black;
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+}
+
+.page-number {
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.visitor-info-text-row {
+  display: grid;
+  grid-template-rows: auto;
+  margin: auto;
+}
+
+.visitor-info-text-row-result {
+  display: grid;
+  grid-template-rows: auto;
+  margin: auto;
+  padding: 5px 5px 5px 5px;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.result-text {
+  border: 1px dotted black;
+}
+
+.visitor-info-text-col {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto;
+  margin: auto;
+  width: 100%;
+}

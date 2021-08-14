@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>FingerprintJS Pro Demo</title>
+
+    <!--Bootstrap CSS-->
+
+    <!--Load Dependecies-->
+    <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs-pro@3/dist/fp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js" crossorigin></script>
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <link rel="stylesheet" href="static/css/style.css">
+
+</head>
+
+<body>
+    <div class="title">FingerprintJS Pro Demo</div>
+    <div class="visitorid-text-col">
+        <span>Your Visitor ID:</span>
+        <span class="visitorid-text" id="visitorid-text">Fetching...</span>
+    </div>
+
+    <div class="visitorid-text-col">
+        <span>Confidence Score:</span>
+        <span class="visitorid-text" id="confidence-text">Fetching...</span>
+    </div>
+
+    <div class="visitorid-text-col">
+        <span>Are you a bot?</span>
+        <span class="visitorid-text" id="bot-text">Fetching...</span>
+    </div>
+
+    <form class="message-form" id="message-form" action="add-message" method="POST">
+        <label for="message">Message</label>
+        <input type="text" name="message" id="message">
+        <input type="submit" value="Submit" class="submit">
+    </form>
+
+    <div class="flash-msg" id="flash-msg"></div>
+    
+    <div class="visitorid-button-col">
+        <div class="visitorid-button" id="message-button">Get Message History</div>
+        <div class="visitorid-button" id="history-button">Get Visitor ID History</div>
+    </div>
+
+    <div class="visitor-info-container" id="visitor-info-container">
+        <div class="visitor-info-text-row" id="visitor-info-text-row"></div>
+    </div>
+
+
+
+
+    <script src="static/js/keys.js"></script>
+    <script src="static/js/fingerprintJS.js"></script>
+</body>
+
+</html>
