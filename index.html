@@ -3,14 +3,19 @@
 
 <head>
     <title>FingerprintJS Pro Demo</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Explore FingerprintJS Pro and its functionalities in this demo.">
+    <meta name="keywords" content="fingerprintjs, fingerprintjspro">
+    <meta name="author" content="Erinna Widjaja">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!--Bootstrap CSS-->
 
     <!--Load Dependecies-->
     <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs-pro@3/dist/fp.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js" crossorigin></script>
-    <script src="http://code.jquery.com/jquery.js"></script>
-    <link rel="stylesheet" href="static/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="static/css/style.css"/>
 
 </head>
 
@@ -31,7 +36,7 @@
         <span class="visitorid-text" id="bot-text">Fetching...</span>
     </div>
 
-    <form class="message-form" id="message-form" action="add-message" method="POST">
+    <form class="message-form" id="message-form">
         <label for="message">Message</label>
         <input type="text" name="message" id="message">
         <input type="submit" value="Submit" class="submit">
@@ -47,9 +52,6 @@
     <div class="visitor-info-container" id="visitor-info-container">
         <div class="visitor-info-text-row" id="visitor-info-text-row"></div>
     </div>
-
-
-
 
     <script src="static/js/keys.js"></script>
     <script src="static/js/fingerprintJS.js"></script>
