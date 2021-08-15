@@ -15,7 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs-pro@3/dist/fp.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js" crossorigin></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <link rel="stylesheet" href="static/css/style.css"/>
+    <link rel="stylesheet" href="./static/css/style.css"/>
 
 </head>
 
@@ -36,6 +36,11 @@
         <span class="visitorid-text" id="bot-text">Fetching...</span>
     </div>
 
+    <div class="visitorid-text-col">
+        <span>Subdomain Integration:</span>
+        <span class="visitorid-text" id="subdomain-text"></span>
+    </div>
+
     <form class="message-form" id="message-form">
         <label for="message">Message</label>
         <input type="text" name="message" id="message">
@@ -53,8 +58,8 @@
         <div class="visitor-info-text-row" id="visitor-info-text-row"></div>
     </div>
 
-    <script src="static/js/keys.js"></script>
-    <script src="static/js/fingerprintJS.js"></script>
+    <script src="./static/js/keys.js"></script>
+    <script type="text/javascript" src="./static/js/fingerprintJS.js"></script>
 </body>
 
 </html>

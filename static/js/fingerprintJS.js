@@ -17,6 +17,11 @@ let previous_timestamps = [];
 let prev_timestamp = 0;
 let previous_timestamps_msg = [];
 let prev_timestamp_msg = 0;
+let subdomain_header = { token: browser_token, endpoint: 'https://fp.erinnawidjaja.com' };
+let header = { token: browser_token };
+let fp_header = subdomain_header;
+let hasSI = true;
+let hasResponded = false;
 
 /*
 function initFingerprintJS() {
@@ -32,11 +37,43 @@ fpPromise
 initFingerprintJS();
 */
 
+document.addEventListener('keyup', function (event) {
+    if (event.key === '`' && hasSI && hasResponded) {
+        hasSI = false;
+        fp_header = header;
+        console.log("Toggling: Subdomain integration OFF.");
+        $('#visitorid-text').html("Fetching...");
+        $('#confidence-text').html("Fetching...");
+        $('#bot-text').html("Fetching...");
+        $('#visitor-info-container').html("");
+        initFingerprintJS();
+    }
+    else if (event.key === '`' && !hasSI && hasResponded) {
+        hasSI = true;
+        fp_header = subdomain_header;
+        console.log("Toggling: Subdomain integration ON.");
+        $('#visitorid-text').html("Fetching...");
+        $('#confidence-text').html("Fetching...");
+        $('#bot-text').html("Fetching...");
+        $('#visitor-info-container').html("");
+        initFingerprintJS(); 
+    }
+});
+
+//add { token: browser_token, endpoint: 'https://fp.erinnawidjaja.com'} if integrating subdomain
 async function initFingerprintJS() {
-    const fpPromise = FingerprintJS.load({ token: browser_token });
+    if (fp_header === header) {
+        $('#subdomain-text').html("OFF");
+    }
+    else if (fp_header === subdomain_header) {
+        $('#subdomain-text').html("ON");
+    }
+
+    const fpPromise = FingerprintJS.load(fp_header);
     
     //fpPromise
     //.then(fp => fp.get({ extendedResult: true }))
+    hasResponded = false;
     fp = await fpPromise;
     fp.get({ tag: {"requestType": "view page"}, linkedId: 0, extendedResult: true })
     .then(result => { console.log(result.visitorId);
@@ -59,6 +96,8 @@ async function initFingerprintJS() {
                             $('#bot-text').html("Not a bot");
                         }
 
+                        hasResponded = true;
+                        $('#subdomain-text').append(" [Press '`' to Toggle]");
                         visitor_id = result.visitorId;
                         API_endpoint = visitor_id + "?token=" + API_token + "&limit=" + limit;
     })
@@ -75,6 +114,9 @@ async function initFingerprintJS() {
                             default:
                                 console.log('Other error');
                         }
+
+                        hasResponded = true;
+                        $('#subdomain-text').append(" [Press '`' to Toggle]");
     });
 };
 
