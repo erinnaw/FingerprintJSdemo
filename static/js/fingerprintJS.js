@@ -69,6 +69,9 @@ async function initFingerprintJS() {
         $('#subdomain-text').html("ON");
     }
 
+    console.log("<----FingerprintJS.load()------>");
+    console.log(fp_header);
+    console.log("-------------------------------");
     const fpPromise = FingerprintJS.load(fp_header);
     
     //fpPromise
