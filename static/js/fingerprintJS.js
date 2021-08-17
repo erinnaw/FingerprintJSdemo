@@ -277,8 +277,8 @@ $('#token-form').on('submit', (evt) => {
         $('#flash-msg').html("Field(s) cannot be empty!");
     }
     else {
-        API_token = $('#api-token-input').val();
-        browser_token = $('#browser-token-input').val();
+        API_token = sanitizeHTML($('#api-token-input').val());
+        browser_token = sanitizeHTML($('#browser-token-input').val());
         header = { token: browser_token };
         fp_header = header;
 
