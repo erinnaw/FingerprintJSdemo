@@ -1,8 +1,10 @@
 "use-strict";
 
-const API_token = API_TOKEN;
-const browser_token = BROWSER_TOKEN;
-const Auth_header = { token: API_token };
+/* Replace with your API token, browser token, and endpoint (if evailable) */
+let API_token = API_TOKEN;
+let browser_token = BROWSER_TOKEN;
+let endpoint_ = ENDPOINT;
+/*----------------------------------------------*/
 const Base_URL = "https://api.fpjs.io/visitors/";
 const DEFAULT_LIMIT = 20;
 let API_endpoint;
@@ -17,26 +19,13 @@ let previous_timestamps = [];
 let prev_timestamp = 0;
 let previous_timestamps_msg = [];
 let prev_timestamp_msg = 0;
-let subdomain_header = { token: browser_token, endpoint: 'https://fp.erinnawidjaja.com' };
+let subdomain_header = { token: browser_token, endpoint: endpoint_ };
 let header = { token: browser_token };
-let fp_header = subdomain_header;
+let fp_header = header;
 let hasSI = true;
 let hasResponded = false;
 
-/*
-function initFingerprintJS() {
-// Initialize the agent at application startup.
-const fpPromise = FingerprintJS.load({ token: browser_token });
-
-// Get the visitor identifier when you need it.
-fpPromise
-    .then(fp => fp.get())
-    .then(result => console.log(result.visitorId));
-}
-
-initFingerprintJS();
-*/
-
+/*------- Toggle for Subdomain Integration -------------
 document.addEventListener('keyup', function (event) {
     if (event.key === '`' && hasSI && hasResponded) {
         hasSI = false;
@@ -59,8 +48,8 @@ document.addEventListener('keyup', function (event) {
         initFingerprintJS(); 
     }
 });
+--------------------------------------------------------*/
 
-//add { token: browser_token, endpoint: 'https://fp.erinnawidjaja.com'} if integrating subdomain
 async function initFingerprintJS() {
     if (fp_header === header) {
         $('#subdomain-text').html("OFF");
@@ -69,13 +58,14 @@ async function initFingerprintJS() {
         $('#subdomain-text').html("ON");
     }
 
+    $('#api-token').html(API_token);
+    $('#browser-token').html(browser_token);
+
     console.log("<----FingerprintJS.load()------>");
     console.log(fp_header);
     console.log("-------------------------------");
     const fpPromise = FingerprintJS.load(fp_header);
     
-    //fpPromise
-    //.then(fp => fp.get({ extendedResult: true }))
     hasResponded = false;
     fp = await fpPromise;
     fp.get({ tag: {"requestType": "view page"}, linkedId: 0, extendedResult: true })
@@ -100,7 +90,8 @@ async function initFingerprintJS() {
                         }
 
                         hasResponded = true;
-                        $('#subdomain-text').append(" [Press '`' to Toggle]");
+                        $('#subdomain-text').append(" [Toggle Feature is OFF]");
+                        //$('#subdomain-text').append(" [Press '`' to Toggle]");
                         visitor_id = result.visitorId;
                         API_endpoint = visitor_id + "?token=" + API_token + "&limit=" + limit;
     })
@@ -119,7 +110,8 @@ async function initFingerprintJS() {
                         }
 
                         hasResponded = true;
-                        $('#subdomain-text').append(" [Press '`' to Toggle]");
+                        $('#subdomain-text').append(" [Toggle Feature is OFF]");
+                        //$('#subdomain-text').append(" [Press '`' to Toggle]");
     });
 };
 
@@ -278,6 +270,23 @@ const sanitizeHTML = function (str) {
     });
 };
 
+$('#token-form').on('submit', (evt) => {
+    evt.preventDefault();
+
+    if ($('#api-token-input').val() === "" || $('#browser-token-input').val() === "") {
+        $('#flash-msg').html("Field(s) cannot be empty!");
+    }
+    else {
+        API_token = $('#api-token-input').val();
+        browser_token = $('#browser-token-input').val();
+        header = { token: browser_token };
+        fp_header = header;
+
+        $('#flash-msg').html("");
+        initFingerprintJS();
+    }
+});
+
 $('#message-form').on('submit', (evt) => {
    evt.preventDefault();
 
@@ -338,14 +347,6 @@ function onKeyUp_requesttype() {
 
 $('#message-button').on('click', () => {
     API_endpoint = visitor_id + "?token=" + API_token + "&limit=" + limit;
-    
-    /*
-    const requestMetadata = { requestType: request_type }
-    
-    fp.get({ tag: requestMetadata, extendedResult: true })
-        .then(result => { console.log(result); })
-        .catch(error => console.error(error));
-    */
 
     $.get(Base_URL + API_endpoint + before + "&linked_id=" + linked_id, (response, status) => {
         console.log(response);

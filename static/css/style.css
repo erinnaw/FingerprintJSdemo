@@ -5,6 +5,29 @@
   margin-bottom: 10px;
 }
 
+.input-tokens-col {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  width: 800px;
+  height: 150px;
+  font-size: 24px;
+  margin: auto;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 5px 5px 5px 5px;
+}
+
+.token-form {
+  display: grid;
+  grid-template-rows: auto auto auto;
+}
+
+.form-input-col {
+  display: grid;
+  grid-template-columns: 40% 60%;
+}
+
 .visitorid-text-col {
   display: grid;
   grid-template-columns: auto auto;

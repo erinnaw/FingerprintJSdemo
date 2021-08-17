@@ -21,6 +21,31 @@
 
 <body>
     <div class="title">FingerprintJS Pro Demo</div>
+
+    <div class="input-tokens-col">
+        <form class="token-form" id="token-form">
+            <div class="form-input-col">
+                <label for="api-token-input">Your API Token</label>
+                <input type="text" name="api-token-input" id="api-token-input">
+            </div>
+            <div class="form-input-col">
+                <label for="browser-token-input">Your Browser Token</label>
+                <input type="text" name="browser-token-input" id="browser-token-input">
+            </div>
+            <div class="form-input-col">
+                <div></div><input type="submit" value="Submit" class="submit">
+            </div>
+        </form>
+        <div class="form-input-col">
+            <span>API Token</span>
+            <span class="api-token" id="api-token">-</span>
+        </div>
+        <div class="form-input-col">
+            <span>Browser Token</span>
+            <span class="browser-token" id="browser-token">-</span>
+        </div>
+    </div>
+
     <div class="visitorid-text-col">
         <span>Your Visitor ID:</span>
         <span class="visitorid-text" id="visitorid-text">Fetching...</span>
